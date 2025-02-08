@@ -20,26 +20,34 @@ def q(question: int):
     print(f"\n✏️ QUESTION {question}\n---")
 
 
-def print_couplage_tables(table_1, table_2, couplages, headers=[]):
-    """Affiche les deux tables avec les couplages mis en évidence.
-    Nécessite tabulate."""
+def print_couplage_tables(
+    table_1: list[list],
+    table_2: list[list],
+    couplages: list[tuple],
+    headers: list[str] = [],
+):
+    # Given two tables and a list of couplings, print the tables with the couplings highlighted
+    # In case of 1-N or N-1 couplings, the 1 side is repeated for each N side
 
     from tabulate import tabulate  # pip install tabulate
 
-    nlines = len(table_1) + len(table_2) - len(couplages)
-    join_table = [[] for _ in range(nlines)]
+    # Optimisation : dictionnaire des couplages T1->T2 et T2->T1
+    cp_12 = {i: [] for i in range(len(table_1))}
+    cp_21 = {i: [] for i in range(len(table_2))}
+    for i, j, s in couplages:
+        cp_12[i].append((j, s))
+        cp_21[j].append((i, s))
 
+    rows = []
     for i, e in enumerate(table_1):
-        join_table[i] = e + ["⛔", None]
+        if cp_12[i]:
+            for j, s in cp_12[i]:
+                rows.append([i] + e + ["✅", s, j] + table_2[j])
+        else:
+            rows.append([i] + e + ["⛔"])
 
-    for i, j, score in couplages:
-        join_table[i] = table_1[i] + ["✅"] + [score] + table_2[j]
-
-    t2_coupled = [j for _, j, _ in couplages]
-    r = len(table_1)
     for j, e in enumerate(table_2):
-        if j not in t2_coupled:
-            join_table[r] = [""] * len(table_1[0]) + ["⛔", None] + e
-            r += 1
+        if not cp_21[j]:
+            rows.append([""] + [""] * len(table_1[0]) + ["⛔", None, j] + e)
 
-    print(tabulate(join_table, headers, tablefmt="outline", floatfmt=".2f"))
+    print(tabulate(rows, headers, tablefmt="outline", floatfmt=".2f"))

@@ -354,11 +354,13 @@ def couplage(
 #     table_2,
 #     couplages,
 #     headers=[
+#         "1.ligne",
 #         "1.PER",
 #         "1.ACT",
 #         "1.LOC",
 #         "Match",
 #         "Score",
+#         "2.ligne",
 #         "2.PER",
 #         "2.ACT",
 #         "2.LOC",
