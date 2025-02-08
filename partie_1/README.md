@@ -412,13 +412,45 @@ Toutefois, la structure d'une méthode de couplage déterministe entre deux tabl
 > ✏️  **Q7**.  Implémentez la fonction `couplage(list[list[str]], list[list[str]], float )-> list[list[]]` qui :
 >
 > - prend en paramètre deux listes d'enregistrements A et B (deux listes de listes de `str`, donc.), et un seuil de couplage ;
-> initialise une liste de couplages vide `liste_couplages`;
-> itère sur toutes les paires possibles d'enregistrements de A et B et applique `couplage_approximatif()` pour la classer la paire en *match* ou *non match*. S'il y a *match*, ajoute un tuple `(i, j, score)` dans liste_couplages où
+> itère sur toutes les paires possibles d'enregistrements de A et B et applique `couplage_approximatif()` pour la classer la paire en *match* ou *non match*.
+> - retourne l'ensemble des *match* sous la forme d'une liste de tuples `(i, j, score)` où :
 >   - `i` et `j` sont les indices dans A et B respectivements des deux enregistrements couplés
 >   - `score` est le score de couplage;
-> - retourne `liste_couplages`
 >
-> Finalement, testez votre méthode de couplage avec les deux listes d'enregistrements  données dans pour cette question`couplage.py`.
+> **Aidez-vous de la représentation algorithmique ci-dessous** pour implémenter la fonction !
+
+```raw
+____________________________________________________________
+Algorithme 1 : Couplage de deux tables.
+Résultat : La liste des couplages identifiés entre les deux tables.
+Entrées : 
+    - table_1 et table_2 : deux listes d'enregistrements (i.e. deux listes de listes de chaînes de caractères).
+    - seuil : le seuil de couplage, un nombre flottant entre 0 et 1. 
+Sorties : une liste de couples (i, j, s) où i et j sont les indices des enregistrements dans leur tables respectives, et s le score de couplage.
+____________________________________________________________
+
+Initialiser une liste vide 'liste_couplages'.
+
+
+POUR chaque enregistrement e1 dans table_1
+    POUR chaque enregistrement e2 dans table_2
+        Calculer le score de couplage approximatif entre e1 et e2 (normalisés !)
+        SI c'est un *match* ALORS
+            Créer le couplage (i, j, s) avec :
+                - i l'indice de e1 dans table_1, 
+                - j l'indice de e2 dans table_2
+                - s le score de couplage.
+            Ajouter ce couplage à 'liste_couplages'
+        SINON
+            continuer
+        FIN SI
+    FIN POUR
+FIN POUR
+
+RETOURNER 'liste_couplages'
+```
+
+Testez la méthode de couplage avec les deux listes d'enregistrements  données dans pour cette question`couplage.py`.
 
 > [!TIP]
 > **🧪 Sortie attendue**
