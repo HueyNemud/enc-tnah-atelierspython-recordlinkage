@@ -26,9 +26,6 @@ def print_couplage_tables(
     couplages: list[tuple],
     headers: list[str] = [],
 ):
-    # Given two tables and a list of couplings, print the tables with the couplings highlighted
-    # In case of 1-N or N-1 couplings, the 1 side is repeated for each N side
-
     from tabulate import tabulate  # pip install tabulate
 
     # Optimisation : dictionnaire des couplages T1->T2 et T2->T1
