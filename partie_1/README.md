@@ -31,6 +31,7 @@ Bienvenue dans la première partie de la séquence dédiée au développement d'
 Lorsque l'on travaille avec des données numériques, il arrive souvent que l'on ait besoin de **combiner** deux ensembles de données qui contiennent des informations sur les mêmes [entités](https://www.dremio.com/wiki/entity/).
 Dans un monde parfait, les entités possèdent un **identifiant** unique, stable et non ambigu.
 Pour combiner les deux tables il suffit donc de faire correspondre les enregistrements qui possèdent le même **identifiant**.
+Dans le vocabulaire des bases de données, on apelle cette opération une **jointure**.
 
 Voici par exemple deux extraits de catalogues stellaires contenant les **enregistrements** des étoiles les plus proches du soleil :
 
@@ -87,7 +88,7 @@ Une table est composées de lignes appelées **enregistrements**, et de colonnes
 
 Pour coupler les enregistrements de deux tables, on décide d'un sous-ensemble de champs communs aux deux sources qui, ensemble, forment **l'identifiant unique** de chaque enregistrement. Dans l'exemple précédent, les **champs identifiants**`Nom` et `Adresse` forment ensemble l'identifiant unique des commerces. : si un enregistrement de $A$ et un enregistrement de $B$ ont les mêmes valeurs de `Nom` et `Adresse` alors ils sont considérés comme correspondants.
 
-Le principe du couplage consiste donc à créer des liens entre entre enregistrements issus de deux tables et de tester si leurs identifiants correspondent. Lorsque c'est le cas on dit qu'il y a **accord** des deux enregistrements, ou plus simplement qu'il y a **match** (et **non-match** dans le cas inverse).
+Le principe du couplage consiste donc à créer des liens entre enregistrements issus de deux tables et de tester si leurs identifiants correspondent. Lorsque c'est le cas on dit qu'il y a **accord** des deux enregistrements, ou plus simplement qu'il y a **match** (et **non-match** dans le cas inverse).
 
 Le couplage d'enregistrement est un **processus**, automatisable à l'aide d'un algorithme. Il en existe un grand nombre, mais ils se rangent dans seulement deux catégories :
 
@@ -108,8 +109,8 @@ Voici deux extraits d'annuaires  de Paris, publiés par l'imprimeur Didot-Bottin
 
 <img src="img/alignement_annuaires.jpg">
 
-À l'occasion du projet de recherche SODUCO, le contenu de ces annuaires ont été extraits et transformés en bases de données numériques sérielles.
-Les données sont organisées en grands tableaux, un par annuaire, où chaque entrée de l'annuaire est un enregistrement contenant 3 champs : 
+À l'occasion du projet de recherche SODUCO, le contenu de ces annuaires a été extrait et transformé en bases de données numériques sérielles.
+Les données sont organisées en grands tableaux, un par annuaire, où chaque entrée de l'annuaire est un enregistrement contenant 3 champs :
 
 - le **nom** (PER) de la personne/institution/commerce ;
 - son **activité**, commerciale ou non (ACT) ;
@@ -123,7 +124,7 @@ Voici un cas typique de couplage : il faut identifier les occurrences multiples 
 
 Dans l'exemple précédent, on comprend immédiatement que M. Duchesne est actif les deux années. Il est évident qu'il s'agit de la même personne car les champs PER, ACT et LOC sont identiques.
 
-Ce cas trivial de couplage**exact** est le plus simple : il y a *match* si les champs identifiants (ici PER, ACT et LOC) sont exactement égaux.
+Ce couplage **exact** est le plus simple : il y a *match* si les champs identifiants (ici PER, ACT et LOC) sont exactement égaux.
 
 | Édition | PER      | ACT             | LOC        |
 | ------- | -------- | --------------- | ---------- |
@@ -136,26 +137,27 @@ Ce cas trivial de couplage**exact** est le plus simple : il y a *match* si les c
 > [!IMPORTANT]
 > **✏️ - QUESTION 2 - ⭐⭐**
 >
-> Implémentez en Python cette première méthode de couplage exact entre deux enregistrements, qui :
+> Implémentez en Python cette première méthode de couplage exact entre deux enregistrements, représentés par des listes de chaînes de caractères.
+> Complétez la fonction `calculer_score_exact` qui doit comparer les champs des enregistrements deux à deux et retourner un nombre entier :
 >
-> 1. Compare les champs des enregistrements deux à deux et associe un score binaire (1 = *match*, 0 = *non match*) à chaque comparaison ;
-> 2. Décide qu'il y a *match* entre les enregistrements si et seulement si il y a *match* entre tous les champs.
+> - 1 si tous les champs sont deux à deux égaux ;
+> - 0 si au moins une paire de champs ne sont pas égaux.
 
 > [!TIP] 
 > **🧪 Sortie attendue** 
 > ```raw
-> ✅ MATCH  :: ('Duchesne', 'Duchesne') • ('peintre-vitrier', '> peintre-vitrier') • ('Amboise, 9', 'Amboise, 9')
+> ✅ MATCH  :: ('Duchesne', 'Duchesne') • ('peintre-vitrier', 'peintre-vitrier') • ('Amboise, 9', 'Amboise, 9')
 > ```
 
 > [!NOTE] 
 > **📝 À retenir.**
-> Coupler deux enregistrements qui représentent la même entité du monde réelle dans des sources de données différentes revient à vérifier que les champs qui permettent de l'identifier de manière **unique** sont les mêmes. Ici, on a considéré que deux enregistrements d'annuaires concernent la même personne si elles ont le même nom (PER), la même activité (ACT) et la même adresse (LOC).
+> Coupler deux enregistrements qui représentent la même entité du monde réel dans des sources de données différentes revient à vérifier que les champs qui permettent de l'identifier de manière **unique** sont les mêmes. Ici, on a considéré que deux enregistrements d'annuaires concernent la même personne si ils ont le même nom (PER), la même activité (ACT) et la même adresse (LOC).
 
 ### Normaliser pour mieux comparer
 
 En réalité, les données sont rarement immédiatement comparables. C'est d'autant plus vrai lorsqu'elles sont produites par extraction automatique, comme l'OCR, où les erreurs de reconnaissance peuvent être nombreuses. Cela peut être dû à la qualité des numérisations, aux graphies utilisées, à l'état de conservation des documents, etc.
 
-L'exemple précédent était artificiellement corrigé à la main. Voici en réalité ce qui a été extrait par OCR des annuaires.
+L'exemple précédent était corrigé à la main. Voici en réalité ce qui a été extrait par OCR des annuaires.
 
 | Édition | PER        | ACT             | LOC       |
 | ------- | ---------- | --------------- | --------- |
@@ -172,7 +174,7 @@ On a donc souvent besoin d'appliquer des **pré-traitements** pour **normaliser*
 > [!IMPORTANT]
 > **✏️ - QUESTION 3 - ⭐⭐**
 >
-> Quelles transformations doit on appliquer aux chaîne de caractère pour les **normaliser** et qu'elles soient de nouveau comparables avec `calculer_score_exact` ? Implémentez ces transformations en complétant la fonction `normaliser_champ`, puis testez-là avec les enregistrements ci-dessous.
+> Quelles transformations doit on appliquer aux chaînes de caractères pour les **normaliser** et qu'elles soient de nouveau comparables avec `calculer_score_exact` ? Implémentez ces transformations en complétant la fonction `normaliser_champ`, puis testez-la avec les enregistrements ci-dessous.
 
 > [!TIP] 
 > **🧪 Sortie attendue**
@@ -192,7 +194,7 @@ En réalité, les imperfections et erreurs qui affectent les données peuvent ê
 - d'erreurs de l'OCR : lettres mal reconnues, doublées ou manquantes ;
 - des  véritables différences de graphie, typiques des documents historiques (ex. `Martyrs` et `Martirs`), des abréviations, etc.
 
-Voici une version particulièrement dégradée des deux enregistrements trouvés dans les mêmes annuaires :
+Voici des extraits particulièrement bruités d'enregistrements trouvés dans les annuaires :
 
 | Édition | PER                             | ACT                           | LOC        |
 | ------- | ------------------------------- | ----------------------------- | ---------- |
@@ -202,25 +204,25 @@ Voici une version particulièrement dégradée des deux enregistrements trouvés
 | ------- | -------------------------------- | -------------------------- | ----------- |
 | 1843    | Lacroix Paul. (Bibliophile jacob | membre du com. des chartes | Martyrs, 47 |
 
-Il est clair que normaliser ne suffira pas : il y a plusieurs erreurs de reconnaissance OCR sont présentes, des caractères manquent, etc.
+Il est clair que normaliser ne suffira pas : il y a plusieurs erreurs de reconnaissance OCR, des caractères manquent, etc.
 
-On pourrait adapter la fonction `normaliser_champ`, mais comment garantir qu'elle fonctionnera pour d'autres enregistrements bruités ?
+On pourrait adapter la fonction `normaliser_champ`, mais cela signifie qu'il faudrait prévoir en avance tous les cas d'erreurs...
 
 Un manière de surmonter ce problème consiste à ne plus baser le couplage sur l'égalité stricte de deux enregistrements,  mais à plutôt mesurer un **score de similarité** entre eux.
 Ce score est un nombre réel, par exemple entre 0.0 et 1.0. Un score de 0.0 signifie que les deux enregistrements sont très différents, et de 1.0 qu'ils sont très similaires (typiquement, égaux).
 
-L'idée est donc de calculer un score de similarité pour chaque champ, les agréger pour obtenir un score de similarité global entre deux enregistrements.
-Enfin, ou décide s'il y a *match* ou non en fixant un **seuil**.
+L'idée est donc de calculer un score de similarité pour chaque champ et de les agréger pour obtenir un score de similarité global entre deux enregistrements.
+Enfin, on décide s'il y a *match* ou non en fixant un **seuil** : une similarité supérieure à ce seuil est un *match*.
 
-Très bien mais...comment le mesure t-on, ce score de similarité ?! 🤔
+Très bien mais...comment le mesure-t-on, ce score de similarité ?! 🤔
 
 ### Distance d'édition
 
- Est que `lacrox` est plus ou moins similaire à `Lacroix`que `Lacroi` ? Quel score attribuer à ces comparaisons ?
+ Est-ce-que `lacrox` est plus ou moins similaire à `Lacroix`que `Lacroi` ? Quel score attribuer à ces comparaisons ?
 
-Une manière simple de faire cela consiste à mesurer une **distance d'édition** entre deux chaînes de caractères, c'est à dire le **nombre minimal de modifications** à appliquer pour transformer une chaîne en l'autre. Ainsi, plus la distance d'édition est petite, plus les chaînes sont similaires !
+Une manière simple de s'y prendre consiste à mesurer une **distance d'édition** entre deux chaînes de caractères, c'est à dire le **nombre minimal de modifications** à appliquer pour transformer une chaîne en l'autre. Ainsi, plus la distance d'édition est petite, plus les chaînes se "ressemblent" !
 
-On considère généralement les règles de modication suivantes :
+Considérons les règles de modication suivantes :
 
 1. Ajouter un caractère, ex. `Llcarox` -> `Llcaroix`.
 2. Supprimer un caractère, ex. `Llcaroix` -> `Lcaroix`.
@@ -231,7 +233,7 @@ La distance d'édtition entre`Llcarox` et `Lacroix` et de 3, puisqu'icil faut aj
 > [!IMPORTANT]
 > **✏️ - QUESTION 4 - ⭐**
 >
-> Quelle est la distance d'édition entre les châines de caractères `martirs 4I`et `Martyrs, 47` ? Vérifiez à l'aide de  l'outil en ligne [https://fr.planetcalc.com/1721](https://fr.planetcalc.com/1721) !
+> Quelle est la distance d'édition entre les chaînes de caractères `martirs 4I`et `Martyrs, 47` ? Vérifiez à l'aide de  l'outil en ligne [https://fr.planetcalc.com/1721](https://fr.planetcalc.com/1721) !
 
 Vous connaissez peut-être cette distance d'édition sous le nom de **[distance de Levenshtein](https://fr.wikipedia.org/wiki/Distance_de_Levenshtein)**, extrêmement utilisée et implémentée dans de nombreuses bibliothèques et *frameworks* logiciels.
 
@@ -294,7 +296,7 @@ Enfin, on aimerait transformer cette distance normalisée en **similarité**, af
 
 On sait maintenant calculer un score de similarité entre deux chaînes de caractères.
 
-Un enregistrement étant composé plusieurs champs, nous avons besoin d'une méthode pour calculer un score de similarité **entre enregistrements**, qui agrège les scores des champs qui le composent.
+Un enregistrement étant composé de plusieurs champs, nous avons besoin d'une méthode pour calculer un score de similarité **entre enregistrements**, qui agrège les scores des champs qui le composent.
 
 Une solution consiste à calculer la moyenne des scores de similarité entre champs.
 Nous pourrions utiliser la moyenne arithmétique, mais elle a l'inconvénient de peu pénaliser des champs très différents si d'autres champs sont proches.
@@ -311,7 +313,7 @@ La moyenne arithmétique des similarités des champs PER, ACT et LOC est $\frac{
 Or on est plutôt certains qu'il ne s'agit pas du même commerce car le nom est très différent, même s'ils sont à la même adresse.
 On préférerait **pénaliser** plus fortement les cas où un champ est très différent, même si les autres sont similaires.
 
-Pour cela on peut lui préférer la **moyenne géométrique** des $n$ champs de deux enregistrements (ici on note $sim_{c_1}$ la similarité calculée pour premier champ, etc.) :
+Pour cela on peut lui préférer la **moyenne géométrique** des $n$ champs de deux enregistrements (ici on note $sim_{c_1}$ la similarité calculée pour le premier champ, etc.) :
 
 ```math
 \overline{sim} = \sqrt[n]{sim_{c_1} \times sim_{c_2} \times ... \times sim_{c_n}}
@@ -400,8 +402,8 @@ Les techniques implémentées sont relativement simples et il existe des approch
 Toutefois, la structure d'une méthode de couplage déterministe entre deux tables $A$ et $B$ suit généralement quatre étapes :
 
 1. **Pré-traitements** : Normaliser, éliminer les enregistrements vides, etc.
-2. **Comparaison** : Crée toutes les paires possibles d'enregistrements de $A$ et $B$. Si chaque table contient 100 enregistrements, il faut créer 10 000 paires !
-3. **Classification** : Décide pour chaque paire si c'est un *match* ou un *non match*
+2. **Comparaison** : Créer toutes les paires possibles d'enregistrements de $A$ et $B$. Si chaque table contient 100 enregistrements, il faut créer 10 000 paires !
+3. **Classification** : Décider pour chaque paire si c'est un *match* ou un *non match*
 4. **Post-traitements** : Supprimer toutes les paires *non match*, et renvoyer les *matches*.
 
 > [!IMPORTANT]
@@ -416,7 +418,7 @@ Toutefois, la structure d'une méthode de couplage déterministe entre deux tabl
 >   - `score` est le score de couplage;
 > - retourne `liste_couplages`
 >
-> Finalement, testez votre méthode de couplage avec les deux listes d'enregistrement suivantes  fournies dans `couplage.py`.
+> Finalement, testez votre méthode de couplage avec les deux listes d'enregistrements  données dans pour cette question`couplage.py`.
 
 > [!TIP]
 > **🧪 Sortie attendue**
@@ -444,6 +446,6 @@ Toutefois, la structure d'une méthode de couplage déterministe entre deux tabl
 
 ## Ouf, c'est fini ! 🏁
 
-C'est tout pour cette fois, vous voici arrivé au bout, félicitations ! 🎉🎉
+C'est tout pour cette fois, vous voici arrivé(e)s au bout, félicitations ! 🎉🎉
 
 Dans la prochaine séquence, nous apprendrons à transformer la méthode de couplage implémentée en un outil **en ligne de commande** réutilisable !
