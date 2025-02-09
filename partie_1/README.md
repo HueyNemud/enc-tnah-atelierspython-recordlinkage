@@ -1,4 +1,4 @@
-# Séance 1 : créer un script Python de couplage d'enregistrements
+# Séance 1 : un programme Python de couplage d'enregistrements
 
 Bonjour 👋 !
 
