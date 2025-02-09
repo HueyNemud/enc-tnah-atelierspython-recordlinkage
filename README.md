@@ -6,7 +6,7 @@ Cette première séquence est dédiée à la réalisation d'un **outil de coupla
 
 Elle est composée de deux parties : 
 1. Introduction au couplage d'enregistrements et réalisation d'un script Python dédié à cette tâche.
-2. Création d'une interface en ligne de commande avec `argparse`pour coupler deux tables de données CSV.
+2. Création d'une interface en ligne de commande avec `argparse` pour coupler deux tables de données CSV.
 
 Les deux séances s'appuient sur des données historiques réelles : les extractions des **annuaires du commerce de Paris au XIXe siècle** produites dans le projet de recherche [SODUCO](https://soduco.geohistoricaldata.org/) et diffusées sous license ouverte dans l'entrepôt de données NAKALA de [l'IR Huma-Num](https://www.huma-num.fr) : https://nakala.fr/collection/10.34847/nkl.abe0gxah.
 
