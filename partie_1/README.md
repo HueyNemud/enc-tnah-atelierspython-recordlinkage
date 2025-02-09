@@ -22,7 +22,7 @@ Bienvenue dans la première partie de la séquence dédiée au développement d'
 
 > [!TIP]
 >
-> La difficulté d'une question **✏️**  est indiquée de ⭐ à ⭐⭐⭐⭐.
+> La difficulté d'une question **🧩**  est indiquée de ⭐ à ⭐⭐⭐⭐.
 
 ## A/ Introduction au couplage d'enregistrements (*Record Linkage*)
 
@@ -71,7 +71,7 @@ Voici deux extraits de données issues de sources historiques imprimées, les é
 | Vallet (V.)       | r. du Portail, 12                  |
 
 > [!IMPORTANT]
-> **✏️ - QUESTION 1 - ⭐**
+> **🧩 - QUESTION 1 - ⭐**
 >
 > Prenez une minute pour réfléchir à une stratégie permettant de déterminer si un enregistrement de la table $A$ a un correspondant dans la table $B$, et discutons-en tous ensemble !
 
@@ -107,7 +107,7 @@ Voilà pour les grandes lignes,  place  à l'expérimentation pour mieux compren
 
 Voici deux extraits d'annuaires  de Paris, publiés par l'imprimeur Didot-Bottin en 1842 et 1843.
 
-<img src="img/alignement_annuaires.jpg">
+![alignement_annuaires](https://hackmd.io/_uploads/ryRf3PLtke.jpg)
 
 À l'occasion du projet de recherche SODUCO, le contenu de ces annuaires a été extrait et transformé en bases de données numériques sérielles.
 Les données sont organisées en grands tableaux, un par annuaire, où chaque entrée de l'annuaire est un enregistrement contenant 3 champs :
@@ -135,7 +135,7 @@ Ce couplage **exact** est le plus simple : il y a *match* si les champs identifi
 | 1843    | Duchesne | peintre-vitrier | Amboise, 9 |
 
 > [!IMPORTANT]
-> **✏️ - QUESTION 2 - ⭐⭐**
+> **🧩 - QUESTION 2 - ⭐⭐**
 >
 > Implémentez en Python cette première méthode de couplage exact entre deux enregistrements, représentés par des listes de chaînes de caractères.
 > Complétez la fonction `calculer_score_exact` qui doit comparer les champs des enregistrements deux à deux et retourner un nombre entier :
@@ -172,7 +172,7 @@ En l'état, il est clair que la fonction`calculer_score_exact`ne va pas identifi
 On a donc souvent besoin d'appliquer des **pré-traitements** pour **normaliser** les valeurs et qu'elles puissent être comparées.
 
 > [!IMPORTANT]
-> **✏️ - QUESTION 3 - ⭐⭐**
+> **🧩 - QUESTION 3 - ⭐⭐**
 >
 > Quelles transformations doit on appliquer aux chaînes de caractères pour les **normaliser** et qu'elles soient de nouveau comparables avec `calculer_score_exact` ? Implémentez ces transformations en complétant la fonction `normaliser_champ`, puis testez-la avec les enregistrements ci-dessous.
 
@@ -231,7 +231,7 @@ Considérons les règles de modication suivantes :
 La distance d'édtition entre`Llcarox` et `Lacroix` et de 3, puisqu'icil faut ajouter le caractère `i`, supprimer `l` et inverser `c`et `a` dans `Llcarox` pour obtenir `Lacroix`.
 
 > [!IMPORTANT]
-> **✏️ - QUESTION 4 - ⭐**
+> **🧩 - QUESTION 4 - ⭐**
 >
 > Quelle est la distance d'édition entre les chaînes de caractères `martirs 4I`et `Martyrs, 47` ? Vérifiez à l'aide de  l'outil en ligne [https://fr.planetcalc.com/1721](https://fr.planetcalc.com/1721) !
 
@@ -240,7 +240,7 @@ Vous connaissez peut-être cette distance d'édition sous le nom de **[distance 
 Plusieurs bibliothèques Python implémentent la distance de Levenshtein. Nous allons utiliser [NLTK](https://www.nltk.org/), une boîte à outil dédiée au traitement automatique du langage naturel.  Dans NLTK, la distance de Levenshtein [`nltk.edit_distance`](https://tedboy.github.io/nlps/generated/generated/nltk.edit_distance.html) est disponibles dans le module `ntlk.metrics`.
 
 > [!IMPORTANT]
-> **✏️ - QUESTION 5 -** 
+> **🧩 - QUESTION 5 -** 
 >
 > Installez NLTK  dans votre environnement Python courant avec `pip install` .
 > Dans une console Python,  importez la méthode `edit_distance` du module `nltk.metrics` et vérifiez que la distance entre les chaînes `martirs 4I`et `Martyrs, 47` soit celle attendue.
@@ -265,7 +265,7 @@ d_{norm}(a,b) = \frac{edit\_distance(a,b)}{max(|a|,|b|)}
 ```
 
 > [!IMPORTANT]
-> **✏️ - QUESTION 6 - ⭐⭐⭐**
+> **🧩 - QUESTION 6 - ⭐⭐⭐**
 >
 > Implémentez la fonction `edit_distance_norm(str, str) -> float` qui renvoie la distance d'édition normalisée entre deux chaînes de caractères. Testez avec l'exemple des questions 5/6. Comment s'interprête le nombre obtenu ?
 
@@ -282,7 +282,7 @@ d_{norm}(a,b) = \frac{edit\_distance(a,b)}{max(|a|,|b|)}
 Enfin, on aimerait transformer cette distance normalisée en **similarité**, afin qu'elle soit facilement interprétable, c'est-à-dire que $sim(a,b) = 1.0$ si $a = b$ et $sim(a,b) = 0.0$ si les chaînes $a$ et $b$ n'ont aucun caractère commun.
 
 > [!IMPORTANT]
-> **✏️ - QUESTION 7 - ⭐**
+> **🧩 - QUESTION 7 - ⭐**
 >
 > Implémentez la fonction `similarité_str(str, str) -> float` qui appelle `edit_distance_norm()` et renvoie le score de similarité correspondant à la distance calculée entre deux chaînes de caractères.
 
@@ -334,7 +334,7 @@ Dans l'exemple précédent, on a alors :
 On voit que le faible score de similarité sur le champ PER a nettement pénalisé la similarité agrégée.
 
 > [!IMPORTANT]
-> **✏️ - QUESTION 8 - ⭐⭐⭐**
+> **🧩 - QUESTION 8 - ⭐⭐⭐**
 >
 > Implémentez la fonction `calculer_score_approximatif(list[str], list[str]) -> float` qui calcule et renvoie  la **moyenne géométrique** des similarités entre les champs de deux enregistrements. Reportez-vous aux commentaires dans `sequence_1.py`qui vous guideront pour coder la formule en Python.
 
@@ -345,7 +345,8 @@ On voit que le faible score de similarité sur le champ PER a nettement pénalis
 > Similarité entre les enregistrements lacroix_1841 et lacroix_1844 : 0.73
 > ```
 
-> [!NOTE]  📝  Bonus:  pour aller plus loin.
+> [!NOTE]  
+> **🚀 Bonus:  pour aller plus loin.**
 >
 > On peut rendre paramétrable la pénalisation des faibles similarités en appliquant une moyenne géométrique **pondérée** :
 > $\overline{sim} = \sqrt[n]{sim_{c_1}^{\alpha} \times sim_{c_2}^{\alpha} \times ... \times sim_{c_n}^{\alpha}}$.  Le paramètre $\alpha$ est un facteur de pénalisation : plus il est grand ( $\alpha > 1$), plus les valeurs proches de 0 pénalisent la valeur moyenne.
@@ -359,7 +360,7 @@ Reste tout de même qu'in fine il faut **décider** si, entre deux enregistremen
 Une manière simple de s'y prendre consiste à fixer un **seuil de couplage** : si la similarité est supérieure à ce seuil, alors il y a *match* !
 
 > [!IMPORTANT]
-> **✏️ - QUESTION 9 - ⭐⭐⭐**
+> **🧩 - QUESTION 9 - ⭐⭐⭐**
 >
 > Créez la fonction `couplage_approximatif(list[str], list[str], float) -> (boolean, float)` qui :
 >
@@ -407,9 +408,9 @@ Toutefois, la structure d'une méthode de couplage déterministe entre deux tabl
 4. **Post-traitements** : Supprimer toutes les paires *non match*, et renvoyer les *matches*.
 
 > [!IMPORTANT]
-> **✏️ - QUESTION 10 - ⭐⭐⭐⭐**
+> **🧩 - QUESTION 10 - ⭐⭐⭐⭐**
 >
-> ✏️  **Q7**.  Implémentez la fonction `couplage(list[list[str]], list[list[str]], float )-> list[list[]]` qui :
+> Implémentez la fonction `couplage(list[list[str]], list[list[str]], float )-> list[list[]]` qui :
 >
 > - prend en paramètre deux listes d'enregistrements A et B (deux listes de listes de `str`, donc.), et un seuil de couplage ;
 > itère sur toutes les paires possibles d'enregistrements de A et B et applique `couplage_approximatif()` pour la classer la paire en *match* ou *non match*.
