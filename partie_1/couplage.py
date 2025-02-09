@@ -36,7 +36,7 @@ import nltk
 from util import print_couplage, q, print_couplage_tables
 
 # --------------------
-# ✏️ QUESTION 2
+# 🧩 QUESTION 2
 q(2)
 
 #  1) Complétez la fonction `calculer_score_exact(list[str], list[str])` pour que :
@@ -79,7 +79,7 @@ def couplage_exact(enregistrement_1: list[str], enregistrement_2: list[str]) -> 
 
 
 # --------------------
-# ✏️ QUESTION 3
+# 🧩 QUESTION 3
 q(3)
 
 # 1) Complétez la fonction `normalisation(str)` qui :
@@ -125,7 +125,7 @@ def normaliser_champ(champ: str) -> str:
 # print_couplage(enregistrement_1, enregistrement_2, match)
 
 # --------------------
-# ✏️ QUESTION 5
+# 🧩 QUESTION 5
 q(5)
 
 # 🏗️ À COMPLÉTER
@@ -144,7 +144,7 @@ q(5)
 # assert distance == 4
 
 # --------------------
-# ✏️ QUESTION 6
+# 🧩 QUESTION 6
 q(6)
 
 
@@ -167,7 +167,7 @@ def edit_distance_norm(champ1: str, champ2: str) -> float:
 # Il existe de nombreuses options de formatage, voir : https://pyformat.info/
 
 # --------------------
-# ✏️ QUESTION 7
+# 🧩 QUESTION 7
 q(7)
 
 
@@ -185,7 +185,7 @@ def similarité_str(champ1: str, champ2: str) -> float:
 # print(f"similarité_str('{s1}', '{s2}') = {sim:.2f}")
 
 # --------------------
-# ✏️ QUESTION 8
+# 🧩 QUESTION 8
 q(8)
 
 # 💡 Astuce
@@ -234,7 +234,7 @@ def calculer_score_approximatif(
 
 
 # --------------------
-# ✏️ QUESTION 9
+# 🧩 QUESTION 9
 q(9)
 
 
@@ -296,7 +296,7 @@ def couplage_approximatif(
 
 
 # --------------------
-# ✏️ QUESTION 10
+# 🧩 QUESTION 10
 q(10)
 
 # 💡 Astuce : pour connaitre l'index de l'élément courant lorsqu'on itère

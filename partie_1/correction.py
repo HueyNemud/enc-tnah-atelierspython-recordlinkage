@@ -11,7 +11,7 @@ import nltk
 from util import print_couplage, q, print_couplage_tables
 
 # --------------------
-# ✏️ QUESTION 2
+# 🧩 QUESTION 2
 q(2)
 
 #  1) Complétez la fonction `calculer_score_exact(list[str], list[str])` pour que :
@@ -59,7 +59,7 @@ print_couplage(enregistrement_1, enregistrement_2, match)
 
 
 # --------------------
-# ✏️ QUESTION 3
+# 🧩 QUESTION 3
 q(3)
 
 # 1) Complétez la fonction `normalisation(str)` qui :
@@ -115,7 +115,7 @@ match = couplage_exact(e1, e2)
 print_couplage(enregistrement_1, enregistrement_2, match)
 
 # --------------------
-# ✏️ QUESTION 5
+# 🧩 QUESTION 5
 q(5)
 
 distance = nltk.edit_distance("martirs 4I", "Martyrs, 47")
@@ -132,7 +132,7 @@ print("nltk.edit_distance('martirs 4I, 'Martyrs, 47') =", distance)
 assert distance == 4
 
 # --------------------
-# ✏️ QUESTION 6
+# 🧩 QUESTION 6
 q(6)
 
 
@@ -156,7 +156,7 @@ print(f"edit_distance_norm('{s1}', '{s2}') = {distance_norm:.2f}")
 # Il existe de nombreuses options de formatage, voir : https://pyformat.info/
 
 # --------------------
-# ✏️ QUESTION 7
+# 🧩 QUESTION 7
 q(7)
 
 
@@ -175,7 +175,7 @@ print(f"similarité_str('{s1}', '{s2}') = {sim:.2f}")
 
 
 # --------------------
-# ✏️ QUESTION 8
+# 🧩 QUESTION 8
 q(8)
 
 # 💡 Astuce
@@ -233,7 +233,7 @@ print(
 
 
 # --------------------
-# ✏️ QUESTION 9
+# 🧩 QUESTION 9
 q(9)
 
 
@@ -297,7 +297,7 @@ print_couplage(dasté_a, dasté_b, couplage, score)
 
 
 # --------------------
-# ✏️ QUESTION 10
+# 🧩 QUESTION 10
 q(10)
 
 # 💡 Astuce : pour connaitre l'index de l'élément courant lorsqu'on itère
