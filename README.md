@@ -1,4 +1,4 @@
-# Master 2 TNAH - Atelier "Python pour les données de la recherche en histoire" - couplage d'enregistrements
+# Master TNAH - Atelier "Python pour les données de la recherche en histoire" - couplage d'enregistrements
 
 Bienvenue sur le dépôt du matériel, code et instructions, pour  réaliser la première séquence de l'atelier "Python pour les données de la recherche en histoire" du master Technologies numériques appliquées à l'histoire à l'École Nationale des Chartes.
 
