@@ -25,26 +25,37 @@ def print_couplage_tables(
     table_2: list[list],
     couplages: list[tuple],
     headers: list[str] = [],
+    max_text_len: int = 25,
 ):
     from tabulate import tabulate  # pip install tabulate
+    import textwrap
+
+    # Tronque les longues chaînes de caractères pour l'affichage
+    _tbl1 = [
+        [textwrap.shorten(cell, width=max_text_len) for cell in row] for row in table_1
+    ]
+    _tbl2 = [
+        [textwrap.shorten(cell, width=max_text_len) for cell in row] for row in table_2
+    ]
 
     # Optimisation : dictionnaire des couplages T1->T2 et T2->T1
-    cp_12 = {i: [] for i in range(len(table_1))}
-    cp_21 = {i: [] for i in range(len(table_2))}
+    cp_12 = {i: [] for i in range(len(_tbl1))}
+    cp_21 = {i: [] for i in range(len(_tbl2))}
     for i, j, s in couplages:
         cp_12[i].append((j, s))
         cp_21[j].append((i, s))
 
     rows = []
-    for i, e in enumerate(table_1):
+    for i, e in enumerate(_tbl1):
         if cp_12[i]:
             for j, s in cp_12[i]:
-                rows.append([i] + e + ["✅", s, j] + table_2[j])
+                rows.append([i] + e + ["✅", s, j] + _tbl2[j])
         else:
             rows.append([i] + e + ["⛔"])
 
-    for j, e in enumerate(table_2):
+    for j, e in enumerate(_tbl2):
         if not cp_21[j]:
-            rows.append([""] + [""] * len(table_1[0]) + ["⛔", None, j] + e)
+            rows.append([""] + [""] * len(_tbl1[0]) + ["⛔", None, j] + e)
 
-    print(tabulate(rows, headers, tablefmt="outline", floatfmt=".2f"))
+    table = tabulate(rows, headers, tablefmt="outline", floatfmt=".2f")
+    print(table)
