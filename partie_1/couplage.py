@@ -30,7 +30,6 @@
     """
 
 import string
-import nltk
 
 # Fontion utilitaires locales
 from util import print_couplage, q, print_couplage_tables
